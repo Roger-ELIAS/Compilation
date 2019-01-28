@@ -11,13 +11,43 @@
 %option noinput
 
 /* Déclarations à compléter ... */
-                    
-                    
-                    
+lettre [a-zA-Z]
+chiffre [0-9]
+alphanum {lettre}|{chiffre}|"_"|"$"
+prefident {lettre}|"_"|"$"
 %%
-
-
-
+[0-9]+ { return NOMBRE; }
+"\n"
+"\t"
+" "
+"#".+"\n"
+";" {return POINT_VIRGULE;}                    
+"+" {return PLUS;}
+"-" {return MOINS;}
+"*" {return FOIS;}
+"/" {return DIVISE;}
+"(" {return PARENTHESE_OUVRANTE;}
+")" {return PARENTHESE_FERMANTE;}
+"[" {return CROCHET_OUVRANT;}
+"]" {return CROCHET_FERMANT;}
+"{" {return ACCOLADE_OUVRANTE;}
+"}" {return ACCOLADE_FERMANTE;}
+"=" {return EGAL;}
+"<" {return INFERIEUR;}
+"&" {return ET;}
+"|" {return OU;}
+"!" {return NON;}
+"si" {return SI;}
+"alors" {return ALORS;}
+"sinon" {return SINON;}
+"tantque" {return TANTQUE;}
+"faire" {return FAIRE;}
+"entier" {return ENTIER;}
+"retour" {return RETOUR;}
+"lire" {return LIRE;}
+"ecrire" {return ECRIRE;}
+{prefident}{alphanum}* {return IDENTIF;}
+"," {return VIRGULE;}
 %%
 
 /* Code copié À LA FIN de l'analyseyur */
