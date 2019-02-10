@@ -44,20 +44,33 @@ int yydebug=1;
 %start programme
 %%
 
-programme : ;
-//TODO: compléter avec les productions de la grammaire
-expression: expression OU e2 | e2;
-e2: e2 ET e3 | e3;
-e3: e3 EGAL e4 | e3 INFERIEUR e4 | e4;
-e4: e4 PLUS e5 | e4 MOINS e5 | e5;
-e5: e5 FOIS e6 | e5 DIVISE e6 | e6;
-e6: NON e6 | e7;
-e7: PARENTHESE_OUVRANTE expression PARENTHESE_FERMANTE | NOMBRE | appelfct | var | LIRE ;
+programme : listDecVariable listDecFct ;
+listDecVariable : | listDecVar POINT_VIRGULE ;
+listDecVar : decVar listDecVarBis ;
+listDecVarBis : VIRGULE decVar listDecVarBis | ;
+decVar : type IDENTIF tailleOpt ;
+tailleOpt : | taille ;
+taille : CROCHET_OUVRANT expression CROCHET_FERMANT ;
+type : ENTIER ;
+listDecFct : decFct listDecFct | decFct ;
+decFct : IDENTIF PARENTHESE_OUVRANTE listArgOpt PARENTHESE_FERMANTE listDecVariable instrBloc ;
+listArgOpt : | listDecVar ;
+	
+expression: expression OU expression2 | expression2;
+expression2: expression2 ET expression3 | expression3;
+expression3: expression3 EGAL expression4 | expression3 INFERIEUR expression4 | expression4;
+expression4: expression4 PLUS expression5 | expression4 MOINS expression5 | expression5;
+expression5: expression5 FOIS expression6 | expression5 DIVISE expression6 | expression6;
+expression6: NON expression6 | expression7;
+expression7: PARENTHESE_OUVRANTE expression PARENTHESE_FERMANTE | NOMBRE | appelfct | var | LIRE ;
 var: IDENTIF | IDENTIF CROCHET_OUVRANT expression CROCHET_FERMANT;
 appelfct: IDENTIF PARENTHESE_OUVRANTE liste_expression PARENTHESE_FERMANTE;
+
 liste_expression: expression liste_expressionbis | ;
 liste_expressionbis: VIRGULE expression liste_expressionbis | ;
+
 instr: instrAffect | instrBloc | instrSi | instrTantque | instrAppel | instrRetour | instrEcriture | instrVide;
+
 instrAffect: var EGAL expression POINT_VIRGULE;
 instrBloc: ACCOLADE_OUVRANTE liste_instr ACCOLADE_FERMANTE;
 liste_instr: instr liste_instr | ;
@@ -67,7 +80,8 @@ instrTantque: TANTQUE expression FAIRE instrBloc;
 instrAppel: appelfct POINT_VIRGULE;
 instrRetour: RETOUR expression POINT_VIRGULE;
 instrEcriture: ECRIRE PARENTHESE_OUVRANTE expression PARENTHESE_FERMANTE POINT_VIRGULE;
-instrVide:;
+instrVide:POINT_VIRGULE;
+
 %%
 
 int yyerror(char *s) {
