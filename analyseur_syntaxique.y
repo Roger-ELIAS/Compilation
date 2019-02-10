@@ -44,7 +44,10 @@ int yydebug=1;
 %start programme
 %%
 
+
 programme : listDecVariable listDecFct ;
+
+//Grammaire des déclarations de variables 
 listDecVariable : | listDecVar POINT_VIRGULE ;
 listDecVar : decVar listDecVarBis ;
 listDecVarBis : VIRGULE decVar listDecVarBis | ;
@@ -52,10 +55,14 @@ decVar : type IDENTIF tailleOpt ;
 tailleOpt : | taille ;
 taille : CROCHET_OUVRANT expression CROCHET_FERMANT ;
 type : ENTIER ;
+
+//Grammaire des déclarations de fonctions
 listDecFct : decFct listDecFct | decFct ;
-decFct : IDENTIF PARENTHESE_OUVRANTE listArgOpt PARENTHESE_FERMANTE listDecVariable instrBloc ;
-listArgOpt : | listDecVar ;
-	
+decFct : IDENTIF PARENTHESE_OUVRANTE listArg PARENTHESE_FERMANTE listDecVariable instrBloc ;
+listArg : | listDecVar ;
+
+
+// Grammaire des expressions arithmétiques
 expression: expression OU expression2 | expression2;
 expression2: expression2 ET expression3 | expression3;
 expression3: expression3 EGAL expression4 | expression3 INFERIEUR expression4 | expression4;
@@ -69,6 +76,8 @@ appelfct: IDENTIF PARENTHESE_OUVRANTE liste_expression PARENTHESE_FERMANTE;
 liste_expression: expression liste_expressionbis | ;
 liste_expressionbis: VIRGULE expression liste_expressionbis | ;
 
+
+// Grammaire des instructions
 instr: instrAffect | instrBloc | instrSi | instrTantque | instrAppel | instrRetour | instrEcriture | instrVide;
 
 instrAffect: var EGAL expression POINT_VIRGULE;
