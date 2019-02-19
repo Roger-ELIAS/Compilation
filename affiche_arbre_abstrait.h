@@ -4,6 +4,6 @@
 #include "syntabs.h"
 
 void affiche_n_prog(n_prog *n);
-extern n_prog *n;
+
 #endif
 

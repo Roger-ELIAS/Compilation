@@ -3,7 +3,7 @@
  */ 
 %{
 /* code copié AU DÉBUT de l'analyseur */
-
+#include "syntabs.h"
 #include "analyseur_syntaxique.tab.h"
 %}
 %option yylineno
@@ -15,8 +15,9 @@ lettre [a-zA-Z]
 chiffre [0-9]
 alphanum {lettre}|{chiffre}|"_"|"$"
 prefident {lettre}|"_"|"$"
+
 %%
-[0-9]+ { return NOMBRE; }
+[0-9]+ {yylval.nval = atoi(yytext); return NOMBRE; }
 "\n"
 "\t"
 " "
@@ -46,7 +47,7 @@ prefident {lettre}|"_"|"$"
 "retour" {return RETOUR;}
 "lire" {return LIRE;}
 "ecrire" {return ECRIRE;}
-{prefident}{alphanum}* {return IDENTIF;}
+{prefident}{alphanum}* {yylval.idval = strdup(yytext); return IDENTIF;}
 "," {return VIRGULE;}
 %%
 
