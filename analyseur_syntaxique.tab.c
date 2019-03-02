@@ -476,13 +476,13 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    72,    72,    75,    76,    77,    78,    79,    80,    81,
-      84,    85,    86,    87,    88,    92,    93,    94,    95,    96,
-      97,    98,    99,   100,   101,   102,   103,   104,   105,   106,
-     107,   108,   109,   110,   111,   112,   113,   114,   116,   117,
-     118,   119,   123,   124,   125,   126,   127,   128,   129,   130,
-     131,   132,   135,   136,   137,   138,   146,   147,   148,   149,
-     150
+       0,    71,    71,    74,    75,    76,    77,    78,    79,    80,
+      83,    84,    85,    86,    87,    91,    92,    93,    94,    95,
+      96,    97,    98,    99,   100,   101,   102,   103,   104,   105,
+     106,   107,   108,   109,   110,   111,   112,   113,   115,   116,
+     117,   118,   122,   123,   124,   125,   126,   127,   128,   129,
+     130,   131,   134,   135,   136,   137,   139,   140,   141,   142,
+     143
 };
 #endif
 
@@ -1328,355 +1328,355 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 72 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 71 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {n=cree_n_prog((yyvsp[-1].nldec),(yyvsp[0].nldec));}
 #line 1334 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 75 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 74 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nldec) = NULL;}
 #line 1340 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 76 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 75 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nldec) = (yyvsp[-1].nldec);}
 #line 1346 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 77 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 76 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nldec) = cree_n_l_dec((yyvsp[-1].ndec), (yyvsp[0].nldec));}
 #line 1352 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 78 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 77 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nldec) = cree_n_l_dec((yyvsp[-1].ndec), (yyvsp[0].nldec));}
 #line 1358 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 79 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 78 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nldec) = NULL;}
 #line 1364 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 80 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 79 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ndec) = cree_n_dec_var((yyvsp[0].idval));}
 #line 1370 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 81 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 80 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ndec) = cree_n_dec_tab((yyvsp[-3].idval),(yyvsp[-1].nval));}
 #line 1376 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 84 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 83 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nldec) = cree_n_l_dec((yyvsp[-1].ndec), (yyvsp[0].nldec));}
 #line 1382 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 85 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 84 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nldec) = cree_n_l_dec((yyvsp[0].ndec), NULL);}
 #line 1388 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 86 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 85 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ndec) = cree_n_dec_fonc((yyvsp[-5].idval), (yyvsp[-3].nldec), (yyvsp[-1].nldec), (yyvsp[0].ninstr));}
 #line 1394 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 87 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 86 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nldec) = NULL;}
 #line 1400 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 88 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 87 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nldec) = (yyvsp[0].nldec);}
 #line 1406 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 92 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 91 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = cree_n_exp_op(ou,(yyvsp[-2].nexp),(yyvsp[0].nexp));}
 #line 1412 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 93 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 92 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = (yyvsp[0].nexp);}
 #line 1418 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 94 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 93 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = cree_n_exp_op(et,(yyvsp[-2].nexp),(yyvsp[0].nexp));}
 #line 1424 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 95 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 94 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = (yyvsp[0].nexp);}
 #line 1430 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 96 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 95 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = cree_n_exp_op(egal,(yyvsp[-2].nexp),(yyvsp[0].nexp));}
 #line 1436 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 97 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 96 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = cree_n_exp_op(inferieur,(yyvsp[-2].nexp),(yyvsp[0].nexp));}
 #line 1442 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 98 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 97 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = (yyvsp[0].nexp);}
 #line 1448 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 99 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 98 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = cree_n_exp_op(plus,(yyvsp[-2].nexp),(yyvsp[0].nexp));}
 #line 1454 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 100 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 99 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = cree_n_exp_op(moins,(yyvsp[-2].nexp),(yyvsp[0].nexp));}
 #line 1460 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 101 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 100 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = (yyvsp[0].nexp);}
 #line 1466 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 102 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 101 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = cree_n_exp_op(fois,(yyvsp[-2].nexp),(yyvsp[0].nexp));}
 #line 1472 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 103 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 102 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = cree_n_exp_op(divise,(yyvsp[-2].nexp),(yyvsp[0].nexp));}
 #line 1478 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 104 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 103 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = (yyvsp[0].nexp);}
 #line 1484 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 105 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 104 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = cree_n_exp_op(non, (yyvsp[0].nexp), NULL);}
 #line 1490 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 106 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 105 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = (yyvsp[0].nexp);}
 #line 1496 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 107 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 106 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = (yyvsp[-1].nexp);}
 #line 1502 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 108 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 107 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = cree_n_exp_entier((yyvsp[0].nval));}
 #line 1508 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 109 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 108 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = cree_n_exp_appel((yyvsp[0].nappel));}
 #line 1514 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 110 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 109 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = cree_n_exp_var((yyvsp[0].nvar));}
 #line 1520 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 111 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 110 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nexp) = cree_n_exp_lire();}
 #line 1526 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 112 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 111 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nvar) = cree_n_var_simple((yyvsp[0].idval));}
 #line 1532 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 113 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 112 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nvar) = cree_n_var_indicee((yyvsp[-3].idval), (yyvsp[-1].nexp));}
 #line 1538 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 114 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 113 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nappel) = cree_n_appel((yyvsp[-3].idval), (yyvsp[-1].nlexp));}
 #line 1544 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 116 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 115 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nlexp) = cree_n_l_exp((yyvsp[-1].nexp), (yyvsp[0].nlexp));}
 #line 1550 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 117 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 116 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nlexp) = NULL;}
 #line 1556 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 118 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 117 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nlexp) = cree_n_l_exp((yyvsp[-1].nexp), (yyvsp[0].nlexp));}
 #line 1562 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 119 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 118 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nlexp) = NULL;}
 #line 1568 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 123 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 122 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ninstr) = (yyvsp[0].ninstr);}
 #line 1574 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 124 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 123 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ninstr) = (yyvsp[0].ninstr);}
 #line 1580 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 125 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 124 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ninstr) = (yyvsp[0].ninstr);}
 #line 1586 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 126 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 125 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ninstr) = (yyvsp[0].ninstr);}
 #line 1592 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 127 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 126 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ninstr) = (yyvsp[0].ninstr);}
 #line 1598 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 128 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 127 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ninstr) = (yyvsp[0].ninstr);}
 #line 1604 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 129 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 128 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ninstr) = (yyvsp[0].ninstr);}
 #line 1610 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 130 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 129 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ninstr) = (yyvsp[0].ninstr);}
 #line 1616 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 131 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 130 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nlinstr) = cree_n_l_instr((yyvsp[-1].ninstr),(yyvsp[0].nlinstr));}
 #line 1622 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 132 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 131 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.nlinstr) = NULL;}
 #line 1628 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 135 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 134 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ninstr) = cree_n_instr_affect((yyvsp[-3].nvar),(yyvsp[-1].nexp));}
 #line 1634 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 136 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 135 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ninstr) = cree_n_instr_bloc((yyvsp[-1].nlinstr));}
 #line 1640 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 137 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 136 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ninstr) = cree_n_instr_si((yyvsp[-2].nexp), (yyvsp[0].ninstr), NULL);}
 #line 1646 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 138 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 137 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ninstr) = cree_n_instr_si((yyvsp[-4].nexp), (yyvsp[-2].ninstr), (yyvsp[0].ninstr));}
 #line 1652 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 146 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 139 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ninstr) = cree_n_instr_tantque((yyvsp[-2].nexp),(yyvsp[0].ninstr));}
 #line 1658 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 147 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 140 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ninstr) = cree_n_instr_appel((yyvsp[-1].nappel));}
 #line 1664 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 148 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 141 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ninstr) = cree_n_instr_retour((yyvsp[-1].nexp));}
 #line 1670 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 149 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 142 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ninstr) = cree_n_instr_ecrire((yyvsp[-2].nexp));}
 #line 1676 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 150 "analyseur_syntaxique.y" /* yacc.c:1646  */
+#line 143 "analyseur_syntaxique.y" /* yacc.c:1646  */
     {(yyval.ninstr) = cree_n_instr_vide();}
 #line 1682 "analyseur_syntaxique.tab.c" /* yacc.c:1646  */
     break;
@@ -1910,7 +1910,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 152 "analyseur_syntaxique.y" /* yacc.c:1906  */
+#line 145 "analyseur_syntaxique.y" /* yacc.c:1906  */
 
 
 int yyerror(char *s) {

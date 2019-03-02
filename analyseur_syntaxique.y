@@ -62,7 +62,6 @@ int yydebug=1;
 %type <nvar> var
 %type <nldec> listDeclarationVariable listArg listDeclarationVarBis listDeclarationVar listDeclarationFct
 %type <ndec> declarationVar declarationFct
-
 %type <nappel> appelfct
 
 %start programme
