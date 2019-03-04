@@ -29,6 +29,7 @@ void parcours_var_simple(n_var *n);
 void parcours_var_indicee(n_var *n);
 void parcours_appel(n_appel *n);
 int nb_param(n_l_dec* liste);
+int nb_argument(n_l_exp* liste);
 
 extern int portee;
 extern int adresseLocaleCourante;
@@ -100,12 +101,30 @@ void parcours_instr_affect(n_instr *n)
 
 void parcours_instr_appel(n_instr *n)
 {
+
   parcours_appel(n->u.appel);
 }
+
 /*-------------------------------------------------------------------------*/
+
+int nb_argument(n_l_exp* liste){
+	int n = 0;
+	while(liste != NULL){
+		n++;
+		liste = liste->queue;
+	}
+	return n;
+}
 
 void parcours_appel(n_appel *n)
 {
+  int nbargument = nb_argument(n->args);
+  if (rechercheExecutable(n->fonction) == -1){
+	erreur("fonction deja declare");
+  }
+  else if ( nbargument != tabsymboles.tab[rechercheExecutable(n->fonction)].complement){
+	erreur("nb argument pas bon");		  
+  }
   parcours_l_exp(n->args);
 }
 
@@ -174,6 +193,7 @@ void parcours_lireExp(n_exp *n)
 
 /*-------------------------------------------------------------------------*/
 
+
 void parcours_appelExp(n_exp *n)
 {
   parcours_appel(n->u.appel);
@@ -225,7 +245,9 @@ void parcours_foncDec(n_dec *n)
 		tabsymboles.base++;
 		entreeFonction();
 		parcours_l_dec(n->u.foncDec_.param);
+		portee = P_VARIABLE_LOCALE;
 		parcours_l_dec(n->u.foncDec_.variables);
+		portee = P_VARIABLE_GLOBALE;
 		parcours_instr(n->u.foncDec_.corps);
 		sortieFonction(1);
 	}
@@ -240,21 +262,20 @@ void parcours_varDec(n_dec *n)
   if (rechercheExecutable(n->nom) == -1) { 
     if (portee == P_VARIABLE_GLOBALE)
     {
-        ajouteIdentificateur(n->nom, portee, T_ENTIER, adresseLocaleCourante, 0);
+        ajouteIdentificateur(n->nom, portee, T_ENTIER, adresseLocaleCourante, 1);
         tabsymboles.base++;
-        adresseLocaleCourante++;
+        adresseLocaleCourante = adresseLocaleCourante +4 ;
     }
     else if (portee == P_VARIABLE_LOCALE)
     {
-        ajouteIdentificateur(n->nom, portee, T_ENTIER, adresseLocaleCourante, 0);
-        adresseLocaleCourante++;
+        ajouteIdentificateur(n->nom, portee, T_ENTIER, adresseLocaleCourante, 1);
+        adresseLocaleCourante = adresseLocaleCourante +4  ;
     }
     else if (portee == P_ARGUMENT)
     {
-      ajouteIdentificateur(n->nom, portee, T_ENTIER, adresseArgumentCourant, 0);
-      adresseArgumentCourant++;
+      ajouteIdentificateur(n->nom, portee, T_ENTIER, adresseArgumentCourant, 1);
+      adresseArgumentCourant = adresseArgumentCourant +4;
     }
-    afficheTabsymboles();
   }
   else erreur("Variable non declaré");
 }
@@ -269,7 +290,7 @@ void parcours_tabDec(n_dec *n)
 		erreur("Un tableau est toujours une variable globale");
     ajouteIdentificateur(n->nom, portee, T_TABLEAU_ENTIER, adresseLocaleCourante, n->u.tabDec_.taille);
     tabsymboles.base++;
-    adresseLocaleCourante += n->u.tabDec_.taille;
+    adresseLocaleCourante += n->u.tabDec_.taille*4;
   }
   else erreur("Tableau deja declaré");
 }
@@ -292,7 +313,6 @@ void parcours_var_simple(n_var *n)
 {
   if (rechercheExecutable(n->nom) == -1) 
 	  erreur("Variable non declaré");
-  else afficheTabsymboles();
 }
 
 /*-------------------------------------------------------------------------*/
@@ -303,7 +323,6 @@ void parcours_var_indicee(n_var *n)
 	  erreur("Variable non declaré");
   else if (tabsymboles.tab[rechercheExecutable(n->nom)].type == T_ENTIER) 
 	  erreur("Ce n'est pas un tableau");
-  else afficheTabsymboles();
 }
 
 
