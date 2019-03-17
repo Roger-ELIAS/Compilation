@@ -120,7 +120,7 @@ void parcours_appel(n_appel *n)
 {
   int nbargument = nb_argument(n->args);
   if (rechercheExecutable(n->fonction) == -1){
-	erreur("fonction deja declare");
+	erreur("fonction pas declare");
   }
   else if ( nbargument != tabsymboles.tab[rechercheExecutable(n->fonction)].complement){
 	erreur("nb argument pas bon");		  
@@ -247,7 +247,6 @@ void parcours_foncDec(n_dec *n)
 		parcours_l_dec(n->u.foncDec_.param);
 		portee = P_VARIABLE_LOCALE;
 		parcours_l_dec(n->u.foncDec_.variables);
-		portee = P_VARIABLE_GLOBALE;
 		parcours_instr(n->u.foncDec_.corps);
 		sortieFonction(1);
 	}
@@ -259,7 +258,7 @@ void parcours_foncDec(n_dec *n)
 
 void parcours_varDec(n_dec *n)
 {
-  if (rechercheExecutable(n->nom) == -1) { 
+  if (rechercheDeclarative(n->nom) == -1) { 
     if (portee == P_VARIABLE_GLOBALE)
     {
         ajouteIdentificateur(n->nom, portee, T_ENTIER, adresseLocaleCourante, 1);
@@ -277,7 +276,7 @@ void parcours_varDec(n_dec *n)
       adresseArgumentCourant = adresseArgumentCourant +4;
     }
   }
-  else erreur("Variable non declaré");
+  else erreur("Variable deja declaré");
 }
 
 /*-------------------------------------------------------------------------*/
@@ -313,6 +312,8 @@ void parcours_var_simple(n_var *n)
 {
   if (rechercheExecutable(n->nom) == -1) 
 	  erreur("Variable non declaré");
+  else if (tabsymboles.tab[rechercheDeclarative(n->nom)].type == T_TABLEAU_ENTIER) 
+	  erreur("Tableau non indicee");
 }
 
 /*-------------------------------------------------------------------------*/
@@ -321,8 +322,8 @@ void parcours_var_indicee(n_var *n)
 {
   if (rechercheExecutable(n->nom) == -1) 
 	  erreur("Variable non declaré");
-  else if (tabsymboles.tab[rechercheExecutable(n->nom)].type == T_ENTIER) 
-	  erreur("Ce n'est pas un tableau");
+  else if (tabsymboles.tab[rechercheDeclarative(n->nom)].type == T_ENTIER) 
+	  erreur("la variable n'est pas un tableau");
 }
 
 
