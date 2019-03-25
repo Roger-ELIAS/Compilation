@@ -2,6 +2,7 @@
 #include "syntabs.h"
 #include "util.h"
 #include "tabsymboles.h"
+#include "code3a.h"
 
 void parcours_n_prog(n_prog *n);
 void parcours_l_instr(n_l_instr *n);
@@ -34,11 +35,13 @@ int nb_argument(n_l_exp* liste);
 extern int portee;
 extern int adresseLocaleCourante;
 extern int adresseArgumentCourant;
+extern code3a_ code3a;
 
 /*-------------------------------------------------------------------------*/
 
 void parcours_n_prog(n_prog *n)
 {
+	code3a_init();
 	portee = P_VARIABLE_GLOBALE;
 	parcours_l_dec(n->variables);
 	parcours_l_dec(n->fonctions); 
@@ -139,7 +142,12 @@ void parcours_instr_retour(n_instr *n)
 
 void parcours_instr_ecrire(n_instr *n)
 {
+  operande* operande = NULL ;
   parcours_exp(n->u.ecrire_.expression);
+  if (n->u.ecrire_.expression->type == varExp) {
+    operande = code3a_new_var(n->u.ecrire_.expression->u.var->nom, portee, adresseLocaleCourante);
+  }
+  code3a_ajoute_instruction(sys_write, operande, NULL, NULL, NULL);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -244,11 +252,14 @@ void parcours_foncDec(n_dec *n)
 		ajouteIdentificateur(n->nom,portee,T_FONCTION,0, nbparam);
 		tabsymboles.base++;
 		entreeFonction();
+		code3a_ajoute_etiquette(n->nom);
+		code3a_ajoute_instruction(func_begin, NULL, NULL, NULL, NULL);
 		parcours_l_dec(n->u.foncDec_.param);
 		portee = P_VARIABLE_LOCALE;
 		parcours_l_dec(n->u.foncDec_.variables);
 		parcours_instr(n->u.foncDec_.corps);
 		sortieFonction(1);
+		code3a_ajoute_instruction(func_end, NULL, NULL, NULL, NULL);
 	}
 	else 
 		erreur("fonction deja declare");
@@ -261,12 +272,14 @@ void parcours_varDec(n_dec *n)
   if (rechercheDeclarative(n->nom) == -1) { 
     if (portee == P_VARIABLE_GLOBALE)
     {
+		code3a_ajoute_instruction(alloc, code3a_new_constante(1), code3a_new_var(n->nom, portee, adresseLocaleCourante), NULL, NULL);
         ajouteIdentificateur(n->nom, portee, T_ENTIER, adresseLocaleCourante, 1);
         tabsymboles.base++;
         adresseLocaleCourante = adresseLocaleCourante +4 ;
     }
     else if (portee == P_VARIABLE_LOCALE)
     {
+		code3a_ajoute_instruction(alloc, code3a_new_constante(1), code3a_new_var(n->nom, portee, adresseLocaleCourante), NULL, NULL);
         ajouteIdentificateur(n->nom, portee, T_ENTIER, adresseLocaleCourante, 1);
         adresseLocaleCourante = adresseLocaleCourante +4  ;
     }
