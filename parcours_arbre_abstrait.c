@@ -96,8 +96,9 @@ void parcours_instr_tantque(n_instr *n)
 
 void parcours_instr_affect(n_instr *n)
 {
-  parcours_var(n->u.affecte_.var);
-  parcours_exp(n->u.affecte_.exp);
+  operande* var = parcours_var(n->u.affecte_.var);
+  operande* exp = parcours_exp(n->u.affecte_.exp);
+  code3a_ajoute_instruction(assign, exp, NULL, var, NULL);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -135,15 +136,15 @@ void parcours_appel(n_appel *n)
 
 void parcours_instr_retour(n_instr *n)
 {
-  parcours_exp(n->u.retour_.expression);
+  operande* retour = parcours_exp(n->u.retour_.expression);
+  code3a_ajoute_instruction(func_val_ret, retour, NULL, NULL, NULL);
 }
 
 /*-------------------------------------------------------------------------*/
 
 void parcours_instr_ecrire(n_instr *n)
 {
-  operande* operande = NULL ;
-  operande = parcours_exp(n->u.ecrire_.expression);
+  operande* operande = parcours_exp(n->u.ecrire_.expression);
   code3a_ajoute_instruction(sys_write, operande, NULL, NULL, NULL);
 }
 
