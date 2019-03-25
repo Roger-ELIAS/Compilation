@@ -14,18 +14,18 @@ void parcours_instr_appel(n_instr *n);
 void parcours_instr_retour(n_instr *n);
 void parcours_instr_ecrire(n_instr *n);
 void parcours_l_exp(n_l_exp *n);
-void parcours_exp(n_exp *n);
-void parcours_varExp(n_exp *n);
-void parcours_opExp(n_exp *n);
-void parcours_intExp(n_exp *n);
-void parcours_lireExp(n_exp *n);
+operande* parcours_exp(n_exp *n);
+operande* parcours_varExp(n_exp *n);
+operande* parcours_opExp(n_exp *n);
+operande* parcours_intExp(n_exp *n);
+operande* parcours_lireExp(n_exp *n);
 void parcours_appelExp(n_exp *n);
 void parcours_l_dec(n_l_dec *n);
 void parcours_dec(n_dec *n);
 void parcours_foncDec(n_dec *n);
 void parcours_varDec(n_dec *n);
 void parcours_tabDec(n_dec *n);
-void parcours_var(n_var *n);
+operande* parcours_var(n_var *n);
 void parcours_var_simple(n_var *n);
 void parcours_var_indicee(n_var *n);
 void parcours_appel(n_appel *n);
@@ -143,10 +143,7 @@ void parcours_instr_retour(n_instr *n)
 void parcours_instr_ecrire(n_instr *n)
 {
   operande* operande = NULL ;
-  parcours_exp(n->u.ecrire_.expression);
-  if (n->u.ecrire_.expression->type == varExp) {
-    operande = code3a_new_var(n->u.ecrire_.expression->u.var->nom, portee, adresseLocaleCourante);
-  }
+  operande = parcours_exp(n->u.ecrire_.expression);
   code3a_ajoute_instruction(sys_write, operande, NULL, NULL, NULL);
 }
 
@@ -159,45 +156,93 @@ void parcours_l_exp(n_l_exp *n)
     parcours_l_exp(n->queue);
   }
 }
-
 /*-------------------------------------------------------------------------*/
 
-void parcours_exp(n_exp *n)
+operande* parcours_exp(n_exp *n)
 {
-  if(n->type == varExp) parcours_varExp(n);
-  else if(n->type == opExp) parcours_opExp(n);
-  else if(n->type == intExp) parcours_intExp(n);
+  operande* operande;
+  if(n->type == varExp) operande = parcours_varExp(n);
+  else if(n->type == opExp) operande = parcours_opExp(n);
+  else if(n->type == intExp) operande = parcours_intExp(n);
   else if(n->type == appelExp) parcours_appelExp(n);
-  else if(n->type == lireExp) parcours_lireExp(n);
+  else if(n->type == lireExp) operande = parcours_lireExp(n);
+  return operande;
 }
 
 /*-------------------------------------------------------------------------*/
 
-void parcours_varExp(n_exp *n)
+operande* parcours_varExp(n_exp *n)
 {
-  parcours_var(n->u.var);
+  operande* operande;
+  operande = parcours_var(n->u.var);
+  return operande;
 }
 
 /*-------------------------------------------------------------------------*/
-void parcours_opExp(n_exp *n)
-{
+operande* parcours_opExp(n_exp *n)
+{	
+  operande*  operande1 = NULL;
+  operande*  operande2 = NULL;
   if( n->u.opExp_.op1 != NULL ) {
-    parcours_exp(n->u.opExp_.op1);
+    operande1= parcours_exp(n->u.opExp_.op1);
   }
   if( n->u.opExp_.op2 != NULL ) {
-    parcours_exp(n->u.opExp_.op2);
+    operande2 = parcours_exp(n->u.opExp_.op2);
   }
-
+  operande*  temporaire = code3a_new_temporaire();
+  instrcode operateur;
+  
+  switch (n->u.opExp_.op)
+  {
+    case plus :
+      operateur = arith_add;
+      break;
+    case moins: 
+      operateur = arith_sub;
+      break;
+    case fois: 
+      operateur = arith_mult;
+      break;
+    case divise: 
+      operateur = arith_div;
+      break;
+    case egal: 
+      operateur = jump_if_equal;
+      break;
+    case inferieur: 
+      operateur = jump_if_less;
+      break;
+    case ou: 
+      operateur = jump_if_equal ;
+      break;
+    case et: 
+      operateur = jump_if_equal;
+      break;
+    case non: 
+      operateur = jump_if_equal;
+      break;
+  }
+  
+  code3a_ajoute_instruction(operateur,operande1,operande2,temporaire,NULL);
+  return temporaire;
 }
 
 /*-------------------------------------------------------------------------*/
 
-void parcours_intExp(n_exp *n)
-{}
+operande* parcours_intExp(n_exp *n)
+{
+  operande* constante;
+  constante = code3a_new_constante(n->u.entier);
+  return constante;
+}
 
 /*-------------------------------------------------------------------------*/
-void parcours_lireExp(n_exp *n)
-{}
+operande* parcours_lireExp(n_exp *n)
+{
+  operande* temporaire = code3a_new_temporaire();
+  code3a_ajoute_instruction(sys_read, NULL, NULL, temporaire, NULL);
+  return temporaire;
+}
 
 /*-------------------------------------------------------------------------*/
 
@@ -309,14 +354,17 @@ void parcours_tabDec(n_dec *n)
 
 /*-------------------------------------------------------------------------*/
 
-void parcours_var(n_var *n)
+operande* parcours_var(n_var *n)
 {
+  operande* operande;	
   if(n->type == simple) {
     parcours_var_simple(n);
   }
   else if(n->type == indicee) {
     parcours_var_indicee(n);
   }
+  operande = code3a_new_var(n->nom, portee, tabsymboles.tab[rechercheExecutable(n->nom)].adresse);
+  return operande;
 }
 
 /*-------------------------------------------------------------------------*/
