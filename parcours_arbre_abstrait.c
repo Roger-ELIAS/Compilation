@@ -3,6 +3,7 @@
 #include "util.h"
 #include "tabsymboles.h"
 #include "code3a.h"
+#include <string.h>
 
 void parcours_n_prog(n_prog *n);
 void parcours_l_instr(n_l_instr *n);
@@ -298,7 +299,9 @@ void parcours_foncDec(n_dec *n)
 		ajouteIdentificateur(n->nom,portee,T_FONCTION,0, nbparam);
 		tabsymboles.base++;
 		entreeFonction();
-		code3a_ajoute_etiquette(n->nom);
+		char* nom = malloc(102*sizeof(char));
+		sprintf (nom,"f%s",n->nom);
+		code3a_ajoute_etiquette(nom);
 		code3a_ajoute_instruction(func_begin, NULL, NULL, NULL, NULL);
 		parcours_l_dec(n->u.foncDec_.param);
 		portee = P_VARIABLE_LOCALE;
@@ -318,7 +321,7 @@ void parcours_varDec(n_dec *n)
   if (rechercheDeclarative(n->nom) == -1) { 
     if (portee == P_VARIABLE_GLOBALE)
     {
-		code3a_ajoute_instruction(alloc, code3a_new_constante(1), code3a_new_var(n->nom, portee, adresseLocaleCourante), NULL, NULL);
+	code3a_ajoute_instruction(alloc, code3a_new_constante(1), code3a_new_var(n->nom, portee, adresseLocaleCourante), NULL, NULL);
         ajouteIdentificateur(n->nom, portee, T_ENTIER, adresseLocaleCourante, 1);
         tabsymboles.base++;
         adresseLocaleCourante = adresseLocaleCourante +4 ;
