@@ -58,7 +58,6 @@ void parcours_n_prog(n_prog *n)
 }
 
 /*-------------------------------------------------------------------------*/
-/*-------------------------------------------------------------------------*/
 
 void parcours_l_instr(n_l_instr *n)
 {
@@ -147,14 +146,18 @@ void parcours_instr_appel(n_instr *n)
 /*-------------------------------------------------------------------------*/
 
 int nb_argument(n_l_exp* liste){
-	int n = 0;
-	while(liste != NULL){
-		operande* param = code3a_new_var(liste->tete->u.var->nom, 3, tabsymboles.tab[rechercheExecutable(liste->tete->u.var->nom)].adresse);
-		code3a_ajoute_instruction(func_param, param, NULL, NULL, NULL);
-		n++;
-		liste = liste->queue;
+	if(liste == NULL)
+		return 0;
+
+	if(liste->tete->type == varExp){
+		code3a_ajoute_instruction(func_param, code3a_new_var(liste->tete->u.var->nom, 3, tabsymboles.tab[rechercheExecutable(liste->tete->u.var->nom)].adresse), NULL, NULL, NULL);
 	}
-	return n;
+
+	if(liste->tete->type == intExp){
+		code3a_ajoute_instruction(func_param, code3a_new_constante(liste->tete->u.entier), NULL, NULL, "param costante");
+	}
+
+	return nb_argument(liste->queue) + 1;
 }
 
 operande* parcours_appel(n_appel *n)
@@ -425,12 +428,16 @@ void parcours_tabDec(n_dec *n)
 
 operande* parcours_var(n_var *n)
 {
+	
   operande* operande;	
   if(n->type == simple) {
     parcours_var_simple(n);
+	
   }
   else if(n->type == indicee) {
+	
     parcours_var_indicee(n);
+	
   }
   operande = code3a_new_var(n->nom, portee, tabsymboles.tab[rechercheExecutable(n->nom)].adresse);
   return operande;
@@ -442,7 +449,7 @@ void parcours_var_simple(n_var *n)
 {
   if (rechercheExecutable(n->nom) == -1) 
 	  erreur("Variable non declaré");
-  else if (tabsymboles.tab[rechercheDeclarative(n->nom)].type == T_TABLEAU_ENTIER) 
+  else if (tabsymboles.tab[rechercheExecutable(n->nom)].type == T_TABLEAU_ENTIER) 
 	  erreur("Tableau non indicee");
 }
 
@@ -450,10 +457,12 @@ void parcours_var_simple(n_var *n)
 
 void parcours_var_indicee(n_var *n)
 {
+	
   if (rechercheExecutable(n->nom) == -1) 
 	  erreur("Variable non declaré");
-  else if (tabsymboles.tab[rechercheDeclarative(n->nom)].type == T_ENTIER) 
+  else if (tabsymboles.tab[rechercheExecutable(n->nom)].type == T_ENTIER) {
 	  erreur("la variable n'est pas un tableau");
+  }
 }
 
 

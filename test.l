@@ -1,8 +1,7 @@
 
-entier $tab;
-initialiser()
-
+entier $tab[];
+main()
 {
     $tab[0] = 8; 
-
+	
 }
