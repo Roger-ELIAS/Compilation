@@ -34,6 +34,7 @@ operande* parcours_appel(n_appel *n);
 int nb_param(n_l_dec* liste);
 int nb_argument(n_l_exp* liste);
 
+extern int affichetab;
 extern int portee;
 extern int adresseLocaleCourante;
 extern int adresseArgumentCourant;
@@ -160,14 +161,17 @@ int nb_argument(n_l_exp* liste){
 		return 0;
 
 	if(liste->tete->type == varExp){
-		code3a_ajoute_instruction(func_param, code3a_new_var(liste->tete->u.var->nom, 3, tabsymboles.tab[rechercheExecutable(liste->tete->u.var->nom)].adresse), NULL, NULL, NULL);
+		operande* var = parcours_varExp(liste->tete);
+		code3a_ajoute_instruction(func_param, var, NULL, NULL, NULL);
 	}
 
 	if(liste->tete->type == intExp){
-		code3a_ajoute_instruction(func_param, code3a_new_constante(liste->tete->u.entier), NULL, NULL, NULL);
+		operande* intexp = parcours_intExp(liste->tete);
+		code3a_ajoute_instruction(func_param, intexp, NULL, NULL, NULL);
 	}
 	if(liste->tete->type == opExp){
-		code3a_ajoute_instruction(func_param, code3a_new_temporaire(), NULL, NULL, NULL);
+		operande* op = parcours_opExp(liste->tete);
+		code3a_ajoute_instruction(func_param, op, NULL, NULL, NULL);
 	}
 	return nb_argument(liste->queue) + 1;
 }
@@ -182,7 +186,7 @@ operande* parcours_appel(n_appel *n)
   else if ( nbargument != tabsymboles.tab[rechercheExecutable(n->fonction)].complement){
 	erreur("nb argument pas bon");		  
   }
-  parcours_l_exp(n->args);
+  //parcours_l_exp(n->args);
   operande* etiquette = code3a_new_temporaire();
   return etiquette;
 }
@@ -405,7 +409,7 @@ void parcours_foncDec(n_dec *n)
 		portee = P_VARIABLE_LOCALE;
 		parcours_l_dec(n->u.foncDec_.variables);
 		parcours_instr(n->u.foncDec_.corps);
-		sortieFonction(1);
+		sortieFonction(affichetab);
 		code3a_ajoute_instruction(func_end, NULL, NULL, NULL, NULL);
 	}
 	else 

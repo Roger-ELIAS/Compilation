@@ -8,7 +8,7 @@ extern FILE *yyin;    // declare dans compilo
 extern int yylineno;  // declare dans analyseur lexical
 int yylex();          // declare dans analyseur lexical
 int yyerror(char *s); // declare ci-dessous
-int yydebug=1;
+//int yydebug=1;
 %}
 
 %union { int nval;

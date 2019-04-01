@@ -7,6 +7,7 @@
 #include "affiche_arbre_abstrait.h"
 #include "parcours_arbre_abstrait.h"
 #include "code3a.h"
+int affichetab;
 
 FILE *yyin;
 extern char *yytext;   // déclaré dans analyseur_lexical
@@ -104,11 +105,13 @@ int main(int argc, char **argv) {
 	affiche_n_prog(n);
   }
   if(affiche_code3a){
+	affichetab = 0;
   	yyparse();
 	parcours_n_prog(n);
 	code3a_affiche_code();
   }  
   if(affiche_tabsymb){
+	affichetab = 1;
     yyparse();
 	parcours_n_prog(n);
   }
