@@ -7,6 +7,7 @@
 #include "affiche_arbre_abstrait.h"
 #include "parcours_arbre_abstrait.h"
 #include "code3a.h"
+#include "c3a2nasm.h"
 int affichetab;
 
 FILE *yyin;
@@ -116,7 +117,9 @@ int main(int argc, char **argv) {
 	parcours_n_prog(n);
   }
   if(affiche_nasm){
-    //Affiche code cible NASM
+	yyparse();
+	parcours_n_prog(n);
+    c3a2nasm_generer();
   }
   return 0;
 } 
