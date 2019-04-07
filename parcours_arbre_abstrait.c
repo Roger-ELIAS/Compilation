@@ -93,13 +93,12 @@ void parcours_instr_si(n_instr *n)
   operande *exp = parcours_exp(n->u.si_.test);
   
   code3a_ajoute_instruction(jump_if_equal,exp,code3a_new_constante(0),si,NULL);
-  
+ 
   parcours_instr(n->u.si_.alors);
   
   if(n->u.si_.sinon){
-
 	code3a_ajoute_instruction(jump, fin, NULL, NULL, NULL);
-	code3a_ajoute_etiquette(sinon->u.oper_nom);
+	code3a_ajoute_etiquette(si->u.oper_nom);
     parcours_instr(n->u.si_.sinon);
   }
   
@@ -188,8 +187,6 @@ operande* parcours_appel(n_appel *n)
 	erreur("nb argument pas bon");		  
   }
   //parcours_l_exp(n->args);
-  char* nom = malloc(102*sizeof(char));
-  sprintf (nom,"f%s",n->u.appel->fonction);
   operande* etiquette = code3a_new_temporaire();
   return etiquette;
 }
@@ -317,12 +314,9 @@ operande* parcours_opExp(n_exp *n)
   
   
   operande* temporaire = code3a_new_temporaire();
-  
-  
+ 
   code3a_ajoute_instruction(assign, code3a_new_constante(-1), NULL, temporaire, NULL);
   code3a_ajoute_instruction(operateur,operande1,operande2,exp,NULL);
-  //code3a_ajoute_instruction(jump, opexp, NULL, NULL, NULL);
-  //code3a_ajoute_etiquette(exp->u.oper_nom);
   code3a_ajoute_instruction(assign, code3a_new_constante(0), NULL, temporaire, NULL);
   code3a_ajoute_etiquette(exp->u.oper_nom);  
   return temporaire;
@@ -371,7 +365,6 @@ void parcours_l_dec(n_l_dec *n)
 
 void parcours_dec(n_dec *n)
 {
-
   if(n){
     if(n->type == foncDec) {
       parcours_foncDec(n);

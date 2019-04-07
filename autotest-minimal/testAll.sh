@@ -210,15 +210,6 @@ function test_fichier_ok() {
           ${MYCOMPILOV["tab"]} input/$input.l > output/$input.tab 2> /dev/null
         fi        
         diff_prog REGDIFF $input tab
-      fi 
-      # Teste code trois adresses
-      if [ -n "${MYCOMPILOV[3a]}" ]; then
-        if [ $VERBOSE -eq 1 ]; then
-          ${MYCOMPILOV["3a"]} input/$input.l > output/$input.3a 
-        else
-          ${MYCOMPILOV["3a"]} input/$input.l > output/$input.3a   2> /dev/null
-        fi
-        diff_prog REGDIFF $input 3a
       fi        
       # Teste génération de code Intel      
       if [ -n "${MYCOMPILOV[nasm]}" ]; then
