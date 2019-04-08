@@ -118,11 +118,11 @@ e8:
 	add	ebx, ebx
 	add	ebx, ebx
 	cmp	edx, dword [v$tab+ebx]
-	jl	e12
+	jl	e11
 	mov	ecx, 0
-e12:
+e11:
 	cmp	ecx, 0
-	je	e10
+	je	e9
 	sub	esp, 4
 	push	dword [ebp - 8]
 	mov	eax, dword [ebp - 8]
@@ -132,7 +132,7 @@ e12:
 	add	esp, 8		; desallocation parametres
 	add	esp, 4
 	mov	dword [ebp - 4], 1
-e11:
+e10:
 	mov	eax, dword [ebp - 8]
 	add	eax, 1
 	mov	dword [ebp - 8], eax

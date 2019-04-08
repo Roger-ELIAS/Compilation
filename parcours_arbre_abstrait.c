@@ -229,22 +229,19 @@ void parcours_l_exp(n_l_exp *n)
 
 operande* parcours_exp(n_exp *n)
 {
-  operande* operande;
-  if(n->type == varExp) operande = parcours_varExp(n);
-  else if(n->type == opExp) operande = parcours_opExp(n);
-  else if(n->type == intExp) operande = parcours_intExp(n);
-  else if(n->type == appelExp) operande = parcours_appelExp(n);
-  else if(n->type == lireExp) operande = parcours_lireExp(n);
-  return operande;
+  if(n->type == varExp) return parcours_varExp(n);
+  else if(n->type == opExp) return parcours_opExp(n);
+  else if(n->type == intExp) return parcours_intExp(n);
+  else if(n->type == appelExp) return parcours_appelExp(n);
+  else if(n->type == lireExp) return parcours_lireExp(n);
+  return NULL;
 }
 
 /*-------------------------------------------------------------------------*/
 
 operande* parcours_varExp(n_exp *n)
 {
-  operande* operande;
-  operande = parcours_var(n->u.var);
-  return operande;
+  return parcours_var(n->u.var);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -269,66 +266,69 @@ operande* parcours_opExp(n_exp *n)
     code3a_ajoute_instruction(assign, operande2->u.oper_var.oper_indice, NULL, tmp2, NULL);
     operande2->u.oper_var.oper_indice = tmp2;
   }
-  instrcode operateur;
-  
-  switch (n->u.opExp_.op)
-  {
-    case plus :
-      operateur = arith_add;
-      break;
-    case moins: 
-      operateur = arith_sub;
-      break;
-    case fois: 
-      operateur = arith_mult;
-      break;
-    case divise: 
-      operateur = arith_div;
-      break;
-    case egal: 
-      operateur = jump_if_equal;
-      break;
-    case inferieur: 
-      operateur = jump_if_less;
-      break;
-    case ou: 
-      operateur = jump_if_equal ;
-      break;
-    case et: 
-      operateur = jump_if_equal;
-      break;
-    case non: 
-      operateur = jump_if_equal;
-      break;
-  }
-  
-  if((n->u.opExp_.op) < egal) {
-    operande* temporaire;
-    temporaire = code3a_new_temporaire();
-    code3a_ajoute_instruction(operateur, operande1, operande2, temporaire, NULL);
-    return temporaire;
-  }
 
   
-  operande *exp = code3a_new_etiquette_auto();
+  operande* tempo;
+  tempo = code3a_new_temporaire();
   
+  if( (n->u.opExp_.op) == plus){
+	  code3a_ajoute_instruction(arith_add, operande1, operande2, tempo, NULL);
+	  return tempo;
+   }
+  else if( (n->u.opExp_.op) == moins){
+	  code3a_ajoute_instruction(arith_sub, operande1, operande2, tempo, NULL);
+	  return tempo;
+  }
+  else if( (n->u.opExp_.op) == fois){
+	  code3a_ajoute_instruction(arith_mult, operande1, operande2, tempo, NULL);
+	  return tempo;
+  }
+  else if( (n->u.opExp_.op) == divise){
+	  code3a_ajoute_instruction(arith_div, operande1, operande2, tempo, NULL);
+	  return tempo;
+  }
+  else if( (n->u.opExp_.op) == egal){
+	  operande *fin = code3a_new_etiquette_auto();	
+	  code3a_ajoute_instruction(assign, code3a_new_constante(-1), NULL, tempo, NULL);
+	  code3a_ajoute_instruction(jump_if_equal,operande1,operande2,fin,NULL);
+      code3a_ajoute_instruction(assign, code3a_new_constante(0), NULL, tempo, NULL);
+      code3a_ajoute_etiquette(fin->u.oper_nom);
+	  return tempo;
+  }
+  else if( (n->u.opExp_.op) == inferieur){  
+	  operande *fin = code3a_new_etiquette_auto();	
+	  code3a_ajoute_instruction(assign, code3a_new_constante(-1), NULL, tempo, NULL);
+	  code3a_ajoute_instruction(jump_if_less,operande1,operande2,fin,NULL);
+      code3a_ajoute_instruction(assign, code3a_new_constante(0), NULL, tempo, NULL);
+      code3a_ajoute_etiquette(fin->u.oper_nom);
+	  return tempo;
+  }
+  /*else if( (n->u.opExp_.op) == ou){
+	  operande *debut = code3a_new_etiquette_auto();
+	  operande *fin = code3a_new_etiquette_auto();
+	  code3a_ajoute_instruction(assign, code3a_new_constante(-1), NULL, tempo, NULL);
+	  code3a_ajoute_instruction(jump_if_less_or_equal,operande1,code3a_new_constante(-1),debut,NULL);
+	  code3a_ajoute_instruction(jump_if_less_or_equal,operande2,code3a_new_constante(-1),debut,NULL);
+      code3a_ajoute_instruction(assign, code3a_new_constante(0), NULL, tempo, NULL);
+	  code3a_ajoute_instruction(jump,fin, NULL, NULL, NULL);
+      code3a_ajoute_etiquette(debut->u.oper_nom);
+	  code3a_ajoute_etiquette(fin->u.oper_nom);
+  }
+  else if( (n->u.opExp_.op) == et){
+      operateur = jump_if_equal;
+  }
+  else if( (n->u.opExp_.op) == non){
+      operateur = jump_if_equal;
+  }*/
   
-  operande* temporaire = code3a_new_temporaire();
- 
-  code3a_ajoute_instruction(assign, code3a_new_constante(-1), NULL, temporaire, NULL);
-  code3a_ajoute_instruction(operateur,operande1,operande2,exp,NULL);
-  code3a_ajoute_instruction(assign, code3a_new_constante(0), NULL, temporaire, NULL);
-  code3a_ajoute_etiquette(exp->u.oper_nom);  
-  return temporaire;
+  return NULL;
 }
 
 /*-------------------------------------------------------------------------*/
 
 operande* parcours_intExp(n_exp *n)
 {
-  operande* constante;
-  constante = code3a_new_constante(n->u.entier);
-  return constante;
+  return code3a_new_constante(n->u.entier);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -393,7 +393,6 @@ void parcours_foncDec(n_dec *n)
 	if(rechercheDeclarative(n->nom) ==-1 ){
 		int nbparam = nb_param (n->u.foncDec_.param);
 		ajouteIdentificateur(n->nom,P_VARIABLE_GLOBALE,T_FONCTION,0, nbparam);
-		tabsymboles.base++;
 		entreeFonction();
 		
 		char* nom = malloc(102*sizeof(char));
@@ -402,9 +401,11 @@ void parcours_foncDec(n_dec *n)
 		
 		code3a_ajoute_instruction(func_begin, NULL, NULL, NULL, NULL);
 		parcours_l_dec(n->u.foncDec_.param);
+		
 		portee = P_VARIABLE_LOCALE;
 		parcours_l_dec(n->u.foncDec_.variables);
 		parcours_instr(n->u.foncDec_.corps);
+		
 		sortieFonction(affichetab);
 		code3a_ajoute_instruction(func_end, NULL, NULL, NULL, NULL);
 	}
@@ -421,7 +422,6 @@ void parcours_varDec(n_dec *n)
     {
 		code3a_ajoute_instruction(alloc, code3a_new_constante(1), code3a_new_var(n->nom, portee, adresseGlobaleCourante), NULL, n->nom);
         ajouteIdentificateur(n->nom, portee, T_ENTIER, adresseGlobaleCourante, 1);
-        tabsymboles.base++;
         adresseGlobaleCourante = adresseGlobaleCourante +4 ;
     }
     else if (portee == P_VARIABLE_LOCALE)
@@ -432,8 +432,8 @@ void parcours_varDec(n_dec *n)
     }
     else if (portee == P_ARGUMENT)
     {
-      ajouteIdentificateur(n->nom, portee, T_ENTIER, adresseArgumentCourant, 1);
-      adresseArgumentCourant = adresseArgumentCourant +4;
+		ajouteIdentificateur(n->nom, portee, T_ENTIER, adresseArgumentCourant, 1);
+		adresseArgumentCourant = adresseArgumentCourant +4;
     }
   }
   else erreur("Variable deja declaré");
@@ -448,7 +448,6 @@ void parcours_tabDec(n_dec *n)
     if (portee != P_VARIABLE_GLOBALE) 
 		erreur("Un tableau est toujours une variable globale");
     ajouteIdentificateur(n->nom, portee, T_TABLEAU_ENTIER, adresseGlobaleCourante, n->u.tabDec_.taille);
-    tabsymboles.base++;
     adresseGlobaleCourante += n->u.tabDec_.taille*4;
 	code3a_ajoute_instruction(alloc, code3a_new_constante(n->u.tabDec_.taille), code3a_new_var(n->nom, portee, adresseGlobaleCourante), NULL, n->nom); 
   }
@@ -459,17 +458,14 @@ void parcours_tabDec(n_dec *n)
 
 operande* parcours_var(n_var *n)
 {
-	
-  operande* operande;	
   if(n->type == simple) {
-    operande = parcours_var_simple(n);
+    return parcours_var_simple(n);
 	
   }
   else if(n->type == indicee) {
-	operande = parcours_var_indicee(n);
-	
+	return parcours_var_indicee(n);	
   }
-  return operande;
+  return NULL;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -480,8 +476,7 @@ operande* parcours_var_simple(n_var *n)
 	  erreur("Variable non declaré");
   else if (tabsymboles.tab[rechercheExecutable(n->nom)].type == T_TABLEAU_ENTIER) 
 	  erreur("Tableau non indicee");
-  operande* operande = code3a_new_var(n->nom, tabsymboles.tab[rechercheExecutable(n->nom)].portee, tabsymboles.tab[rechercheExecutable(n->nom)].adresse);
-  return operande;
+  return code3a_new_var(n->nom, tabsymboles.tab[rechercheExecutable(n->nom)].portee, tabsymboles.tab[rechercheExecutable(n->nom)].adresse);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -494,12 +489,7 @@ operande* parcours_var_indicee(n_var *n)
   else if (tabsymboles.tab[rechercheExecutable(n->nom)].type == T_ENTIER) {
 	  erreur("la variable n'est pas un tableau");
   }
-  
-  operande* var = code3a_new_var(n->nom, tabsymboles.tab[rechercheExecutable(n->nom)].portee, tabsymboles.tab[rechercheExecutable(n->nom)].adresse);
-  operande* indice = parcours_exp( n->u.indicee_.indice );
-  var->u.oper_var.oper_indice = indice;
-
-  return var;
+  return code3a_new_var_indicee(n->nom, tabsymboles.tab[rechercheExecutable(n->nom)].portee, tabsymboles.tab[rechercheExecutable(n->nom)].adresse, parcours_exp( n->u.indicee_.indice ));
 }
 
 

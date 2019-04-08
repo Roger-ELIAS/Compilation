@@ -15,16 +15,16 @@ fmax:
 	mov	eax, -1
 	mov	ebx, dword [ebp + 12]
 	cmp	ebx, dword [ebp + 8]
-	jl	e3
+	jl	e2
 	mov	eax, 0
-e3:
+e2:
 	cmp	eax, 0
-	je	e1
+	je	e0
 	mov	eax, dword [ebp + 8]
 	mov	dword [ebp + 16], eax
 	pop	ebp
 	ret
-e2:
+e1:
 	mov	eax, dword [ebp + 12]
 	mov	dword [ebp + 16], eax
 	pop	ebp
@@ -54,18 +54,18 @@ fmain:
 	pop	eax
 	mov	ebx, -1
 	cmp	eax, dword [ebp - 4]
-	je	e7
-	mov	ebx, 0
-e7:
-	cmp	ebx, 0
 	je	e5
+	mov	ebx, 0
+e5:
+	cmp	ebx, 0
+	je	e3
 	mov	eax, dword [ebp - 4]
 	call	iprintLF
-	jmp	e6
-e4:
+	jmp	e4
+e3:
 	mov	eax, dword [ebp - 8]
 	call	iprintLF
-e6:
+e4:
 	add	esp, 8
 	pop	ebp
 	ret
