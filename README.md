@@ -1,2 +1,2 @@
 # Compilation
-TP de compilation
+TP de compilation de ELIAS Roger et BARONI Alexandre
