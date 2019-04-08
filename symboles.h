@@ -31,6 +31,7 @@
 #define IDENTIF 26
 #define NOMBRE 27
 #define VIRGULE 28
+#define POUR 29
 
 #endif
 

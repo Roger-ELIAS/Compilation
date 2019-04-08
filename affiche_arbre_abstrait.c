@@ -7,6 +7,7 @@ void affiche_l_instr(n_l_instr *n);
 void affiche_instr(n_instr *n);
 void affiche_instr_si(n_instr *n);
 void affiche_instr_tantque(n_instr *n);
+void affiche_instr_pour(n_instr *n);
 void affiche_instr_affect(n_instr *n);
 void affiche_instr_appel(n_instr *n);
 void affiche_instr_retour(n_instr *n);
@@ -64,6 +65,7 @@ void affiche_instr(n_instr *n)
     else if(n->type == affecteInst) affiche_instr_affect(n);
     else if(n->type == siInst) affiche_instr_si(n);
     else if(n->type == tantqueInst) affiche_instr_tantque(n);
+	else if(n->type == pourInst) affiche_instr_pour(n);
     else if(n->type == appelInst) affiche_instr_appel(n);
     else if(n->type == retourInst) affiche_instr_retour(n);
     else if(n->type == ecrireInst) affiche_instr_ecrire(n);
@@ -94,6 +96,20 @@ void affiche_instr_tantque(n_instr *n)
 
   affiche_exp(n->u.tantque_.test);
   affiche_instr(n->u.tantque_.faire);
+  affiche_balise_fermante(fct, trace_abs);
+}
+
+/*-------------------------------------------------------------------------*/
+void affiche_instr_pour(n_instr *n)
+{
+  char *fct = "instr_pour";
+  affiche_balise_ouvrante(fct, trace_abs);
+  
+  affiche_instr(n->u.pour_.affect);
+  affiche_exp(n->u.pour_.test);
+  affiche_instr(n->u.pour_.faire);
+  affiche_instr(n->u.pour_.affect2);
+
   affiche_balise_fermante(fct, trace_abs);
 }
 

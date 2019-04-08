@@ -72,7 +72,8 @@ extern int yydebug;
     ECRIRE = 282,
     IDENTIF = 283,
     NOMBRE = 284,
-    VIRGULE = 285
+    VIRGULE = 285,
+    POUR = 286
   };
 #endif
 
@@ -94,7 +95,7 @@ union YYSTYPE
 	n_prog* nprog;
 	n_appel* nappel;
 
-#line 98 "analyseur_syntaxique.tab.h" /* yacc.c:1909  */
+#line 99 "analyseur_syntaxique.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

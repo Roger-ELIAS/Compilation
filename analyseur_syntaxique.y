@@ -52,11 +52,12 @@ int yyerror(char *s); // declare ci-dessous
 %token <idval>IDENTIF
 %token <nval> NOMBRE 
 %token VIRGULE 
+%token POUR
 
 
 %type <nprog> programme
 %type <nlinstr> liste_instr
-%type <ninstr> instr instrAffect instrSi instrTantque instrAppel instrRetour instrEcriture instrVide instrBloc
+%type <ninstr> instr instrAffect instrSi instrTantque instrAppel instrRetour instrEcriture instrVide instrBloc instrPour
 %type <nexp> expression expression2 expression3 expression4 expression5 expression6 expression7
 %type <nlexp> liste_expression liste_expressionbis
 %type <nvar> var
@@ -116,8 +117,7 @@ liste_expression: expression liste_expressionbis {$$ = cree_n_l_exp($1, $2);}
 	| {$$ = NULL;};
 liste_expressionbis: VIRGULE expression liste_expressionbis {$$ = cree_n_l_exp($2, $3);}
 	| {$$ = NULL;};
-
-
+	
 // Grammaire des instructions
 instr: instrAffect {$$ = $1;}
 	| instrBloc {$$ = $1;}
@@ -126,7 +126,8 @@ instr: instrAffect {$$ = $1;}
 	| instrAppel {$$ = $1;}
 	| instrRetour {$$ = $1;}
 	| instrEcriture {$$ = $1;}
-	| instrVide {$$ = $1;} ;
+	| instrVide {$$ = $1;}
+	| instrPour {$$ = $1;} 
 liste_instr: instr liste_instr {$$ = cree_n_l_instr($1,$2);}
 	| {$$ = NULL;};
 	
@@ -137,6 +138,7 @@ instrSi: SI expression ALORS instrBloc {$$ = cree_n_instr_si($2, $4, NULL);}
 	| SI expression ALORS instrBloc SINON instrBloc {$$ = cree_n_instr_si($2, $4, $6);};
 	
 instrTantque: TANTQUE expression FAIRE instrBloc {$$ = cree_n_instr_tantque($2,$4);};
+instrPour: POUR instrAffect expression POINT_VIRGULE instrAffect FAIRE instrBloc {$$ = cree_n_instr_pour($2,$3,$5,$7);};
 instrAppel: appelfct POINT_VIRGULE {$$ = cree_n_instr_appel($1);};
 instrRetour: RETOUR expression POINT_VIRGULE {$$ = cree_n_instr_retour($2);};
 instrEcriture: ECRIRE PARENTHESE_OUVRANTE expression PARENTHESE_FERMANTE POINT_VIRGULE {$$ = cree_n_instr_ecrire($3);};

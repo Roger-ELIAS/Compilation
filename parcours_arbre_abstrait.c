@@ -15,6 +15,7 @@ void parcours_instr_affect(n_instr *n);
 void parcours_instr_appel(n_instr *n);
 void parcours_instr_retour(n_instr *n);
 void parcours_instr_ecrire(n_instr *n);
+void parcours_instr_pour(n_instr *n);
 void parcours_l_exp(n_l_exp *n);
 operande* parcours_exp(n_exp *n);
 operande* parcours_varExp(n_exp *n);
@@ -33,6 +34,7 @@ operande* parcours_var_indicee(n_var *n);
 operande* parcours_appel(n_appel *n);
 int nb_param(n_l_dec* liste);
 int nb_argument(n_l_exp* liste);
+
 
 extern int affichetab;
 extern int portee;
@@ -77,6 +79,7 @@ void parcours_instr(n_instr *n)
     else if(n->type == affecteInst) parcours_instr_affect(n);
     else if(n->type == siInst) parcours_instr_si(n);
     else if(n->type == tantqueInst) parcours_instr_tantque(n);
+	else if(n->type == pourInst) parcours_instr_pour(n);
     else if(n->type == appelInst) parcours_instr_appel(n);
     else if(n->type == retourInst) parcours_instr_retour(n);
     else if(n->type == ecrireInst) parcours_instr_ecrire(n);
@@ -124,6 +127,21 @@ void parcours_instr_tantque(n_instr *n)
 
   code3a_ajoute_etiquette(fin->u.oper_nom);
   }
+  
+/*-------------------------------------------------------------------------*/
+void parcours_instr_pour(n_instr *n)
+{
+  operande* debut = code3a_new_etiquette_auto();
+  operande* fin = code3a_new_etiquette_auto();
+  parcours_instr(n->u.pour_.affect);
+  code3a_ajoute_etiquette(debut->u.oper_nom);
+  operande* pour = parcours_exp(n->u.pour_.test);
+  code3a_ajoute_instruction(jump_if_equal, pour, code3a_new_constante(0), fin, NULL);
+  parcours_instr(n->u.pour_.faire);
+  parcours_instr(n->u.pour_.affect2);
+  code3a_ajoute_instruction(jump, debut, NULL, NULL, NULL);
+  code3a_ajoute_etiquette(fin->u.oper_nom);
+}
 
 /*-------------------------------------------------------------------------*/
 
@@ -186,7 +204,6 @@ operande* parcours_appel(n_appel *n)
   else if ( nbargument != tabsymboles.tab[rechercheExecutable(n->fonction)].complement){
 	erreur("nb argument pas bon");		  
   }
-  //parcours_l_exp(n->args);
   operande* etiquette = code3a_new_temporaire();
   return etiquette;
 }
@@ -303,24 +320,6 @@ operande* parcours_opExp(n_exp *n)
       code3a_ajoute_etiquette(fin->u.oper_nom);
 	  return tempo;
   }
-  /*else if( (n->u.opExp_.op) == ou){
-	  operande *debut = code3a_new_etiquette_auto();
-	  operande *fin = code3a_new_etiquette_auto();
-	  code3a_ajoute_instruction(assign, code3a_new_constante(-1), NULL, tempo, NULL);
-	  code3a_ajoute_instruction(jump_if_less_or_equal,operande1,code3a_new_constante(-1),debut,NULL);
-	  code3a_ajoute_instruction(jump_if_less_or_equal,operande2,code3a_new_constante(-1),debut,NULL);
-      code3a_ajoute_instruction(assign, code3a_new_constante(0), NULL, tempo, NULL);
-	  code3a_ajoute_instruction(jump,fin, NULL, NULL, NULL);
-      code3a_ajoute_etiquette(debut->u.oper_nom);
-	  code3a_ajoute_etiquette(fin->u.oper_nom);
-  }
-  else if( (n->u.opExp_.op) == et){
-      operateur = jump_if_equal;
-  }
-  else if( (n->u.opExp_.op) == non){
-      operateur = jump_if_equal;
-  }*/
-  
   return NULL;
 }
 
